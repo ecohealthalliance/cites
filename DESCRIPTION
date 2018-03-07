@@ -1,0 +1,36 @@
+Package: cites
+Type: Package
+Title: The CITES Wildlife Trade Database
+Version: 0.1.0
+Authors@R: c(
+    person("Noam", "Ross", , "ross@ecohealthalliance.org", role = c("aut", "cre")),
+    person("EcoHealth Alliance", role="cph"))
+Description: This package provides the full extracted data and metadata from the CITES
+    wildlife trade database.
+URL: https://github.com/ecohealthalliance/cites#readme, https://trade.cites.org/
+BugReports: https://github.com/ecohealthalliance/cites/issues
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Depends: 
+    R (>= 3.1.2)
+Imports:
+  datastorr,
+  fstplyr,
+  DT,
+  htmlwidgets,
+  stringi
+Remotes:
+  ropenscilabs/datastorr@i14-private-repos,
+  krlmlr/fstplyr
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.0.1
+Suggests: 
+    knitr,
+    rmarkdown,
+    purrr,
+    desc,
+    testthat,
+    lintr,
+    tidyverse
+VignetteBuilder: knitr
