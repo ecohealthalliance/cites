@@ -9,7 +9,7 @@ querying the CITES website repeatedly to get yearly-scale CSVs of the data.
 For many years, the website GUI won't let you download files of these size
 (those > 1 million records), but querying the export directly is fine, if slowe.
 
-The raw exported annual CITES files are kept on AWS S3 at <https://s3.console.aws.amazon.com/s3/buckets/cites-trade-data/>
+The raw exported annual CITES files are kept on AWS S3 at <https://s3.console.aws.amazon.com/s3/buckets/cites-trade-data/> (public link: <https://s3.amazonaws.com/cites-trade-data/>).
 
 Once the `.fst` file is generated, it can be attached to this package as a 
 release using `datastorr::github_release_create`.  Please read the help file
