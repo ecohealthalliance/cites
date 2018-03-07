@@ -38,10 +38,6 @@ Install the **cites** package with this command:
 source("https://install-github.me/ecohealthalliance/cites")
 ```
 
-As this is currently a private repository, you must have a
-GitHub personal access token set up to install and use the package. Instructions
-for this can be found [here](http://happygitwithr.com/github-pat.html#step-by-step).
-
 ## Usage
 
 The main function in **cites** is `cites_data()`. This returns the main 
