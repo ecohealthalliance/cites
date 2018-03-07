@@ -47,3 +47,7 @@ aws_success <- map_lgl(csv_files, ~put_object(
   file = ., object = basename(.),
   bucket = "cites-trade-data"
 ))
+
+#h <- here::here
+#cites:::cites_release(description = "Initial test release", filename = h("data-raw", "cites.fst"),
+#                                            target = "master", ignore_dirty = TRUE)

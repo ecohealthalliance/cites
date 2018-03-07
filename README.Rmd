@@ -61,10 +61,12 @@ all_cites <- cites_data() %>%
 ```
 Note that the full database will be approximately 270 MB in memory.
 
-`cites_codes()` returns a data frame with descriptions of the codes used by
-USFWS in the various columns of `cites_data()`. This is useful for lookup
+`cites_codes()` returns a data frame with descriptions of the codes in the
+various columns of `cites_data()`. This is useful for lookup
 or joining with the main data for more descriptive outputs.  The `?cites_code`
-help file also has a searchable table of these codes.
+help file also has a searchable table of these codes.  `cites_metadata()`
+provides field descriptions and `cites_parties()` lists the CITES party countries
+and the date they joined the treaty.
 
 See the [developer README](https://github.com/ecohealthalliance/cites/tree/master/data-raw/README.md) for more on the data-cleaning process.
 
