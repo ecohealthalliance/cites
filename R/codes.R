@@ -14,13 +14,7 @@
 #'     if(in_pkgdown) {
 #'       mytext <- c('In RStudio, this help file includes a searchable table of values.')
 #'     } else {
-#'     tmp <- tempfile(fileext=".html")
-#'       htmlwidgets::saveWidget(DT::datatable(cites::cites_codes(), rownames = FALSE, width=700), tmp)
-#'       mytext <- paste('Below is a searchable table of the CITES codes.',
-#'       '\\\out{<div style="width:100\%">',
-#'          paste(stringi::stri_subset_regex(readLines(tmp), "^</?(!DOCTYPE|meta|body|html)",negate=TRUE), collapse="\n"),
-#'       '</div>}\n',
-#'       sep="\n")
+#'       mytext <- cites:::rd_datatable(cites::cites_codes())
 #'     }
 #'     mytext
 #'   }
@@ -30,8 +24,6 @@
 #'
 #' @return A tibble with fields and descriptions
 #' @importFrom DT datatable
-#' @importFrom htmlwidgets saveWidget
-#' @importFrom stringi stri_subset_regex
 #' @aliases codes
 #' @seealso [cites_metadata()] [cites_data()]
 #' @export
@@ -53,13 +45,7 @@ cites_codes <- function() {
 #'     if(in_pkgdown) {
 #'       mytext <- cites:::tabular(cites::cites_metadata())
 #'     } else {
-#'     tmp <- tempfile(fileext=".html")
-#'       htmlwidgets::saveWidget(DT::datatable(cites::cites_metadata(), rownames = FALSE, width=700), tmp)
-#'       mytext <- paste('Below is a searchable version of the CITES field descriptions',
-#'       '\\\out{<div style="width:100\%">',
-#'          paste(stringi::stri_subset_regex(readLines(tmp), "^</?(!DOCTYPE|meta|body|html)",negate=TRUE), collapse="\n"),
-#'       '</div>}',
-#'       sep="\n")
+#'       mytext <- cites:::rd_datatable(cites::cites_metadata())
 #'     }
 #'     mytext
 #'   }
@@ -89,21 +75,15 @@ cites_metadata <- function() {
 #'   \Sexpr[echo=FALSE, results=rd, stage=build]{
 #'   in_pkgdown <- any(grepl("as_html.tag_Sexpr", sapply(sys.calls(), function(a) paste(deparse(a), collapse = "\n"))))
 #'     if(in_pkgdown) {
-#'       mytext <- ""
+#'       mytext <- cites:::tabular(cites::cites_parties())
 #'     } else {
-#'     tmp <- tempfile(fileext=".html")
-#'       htmlwidgets::saveWidget(DT::datatable(cites::cites_parties(), rownames = FALSE, width=700), tmp)
-#'       mytext <- paste('Below is a searchable table of CITES parties.',
-#'       '\\\out{<div style="width:100\%">',
-#'          paste(stringi::stri_subset_regex(readLines(tmp), "^</?(!DOCTYPE|meta|body|html)",negate=TRUE), collapse="\n"),
-#'       '</div>}',
-#'       sep="\n")
+#'       mytext <- cites:::rd_datatable(cites::cites_parties())
 #'     }
 #'     mytext
 #'   }
 #' }
 #'
-#' \if{text,latex}{ The HTML version of this help file includes a searchable table of the CITES parties }
+#' \if{text,latex}{ \Sexpr[echo=FALSE, results=rd, stage=build]{cites:::tabular(cites::cites_metadata())}}
 #'
 #' @return A tibble
 #' @importFrom DT datatable
@@ -138,5 +118,67 @@ tabular <- function(df, col_names = TRUE, ...) {
   paste(
     "\\tabular{", paste(col_align, collapse = ""), "}{\n  ",
     contents, "\n}\n", sep = ""
+  )
+}
+
+
+# From https://cran.r-project.org/web/packages/roxygen2/vignettes/formatting.html#tables
+
+tabular <- function(df, col_names = TRUE, ...) {
+  stopifnot(is.data.frame(df))
+
+  align <- function(x) if (is.numeric(x)) "r" else "l"
+  col_align <- vapply(df, align, character(1))
+
+  cols <- lapply(df, format, ...)
+  contents <- do.call(
+    "paste",
+    c(cols, list(sep = " \\tab ", collapse = "\\cr\n  "))
+  )
+
+  if (col_names) {
+    header <- paste0("\\bold{", colnames(df), "}", collapse = " \\tab")
+    contents <- paste0(header, "\\cr\n  ", contents)
+  }
+
+  paste(
+    "\\tabular{", paste(col_align, collapse = ""), "}{\n  ",
+    contents, "\n}\n",
+    sep = ""
+  )
+}
+
+#' @importFrom DT datatable
+#' @noRd
+rd_datatable <- function(df, width = "100%", ...) {
+  wrap_widget(datatable(df, width = width, ...))
+}
+
+#' @importFrom stringi stri_subset_regex
+#' @importFrom htmlwidgets saveWidget
+#' @noRd
+wrap_widget <- function(widget) {
+  tmp <- tempfile(fileext = ".html")
+  htmlwidgets::saveWidget(widget, tmp)
+  widg <- paste(
+    stringi::stri_subset_regex(readLines(tmp),
+                               "^</?(!DOCTYPE|meta|body|html|head|title)",
+                               negate = TRUE),
+    collapse = "\n")
+  paste("\\out{", escape_rd(widg), "}\n", sep = "\n")
+}
+
+#' @importFrom stringi stri_replace_all_fixed
+#' @noRd
+escape_rd <- function(x) {
+  stri_replace_all_fixed(
+    stri_replace_all_fixed(
+      stri_replace_all_fixed(
+        stri_replace_all_fixed(x, "\\", "\\\\"),
+        "%", "\\%"
+      ),
+      "{", "\\{"
+    ),
+    "}", "\\}"
   )
 }

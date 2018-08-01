@@ -24,13 +24,7 @@ from the CITES websites.
     if(in_pkgdown) {
       mytext <- cites:::tabular(cites::cites_metadata())
     } else {
-    tmp <- tempfile(fileext=".html")
-      htmlwidgets::saveWidget(DT::datatable(cites::cites_metadata(), rownames = FALSE, width=700), tmp)
-      mytext <- paste('Below is a searchable version of the CITES field descriptions',
-      '\\\out{<div style="width:100\%">',
-         paste(stringi::stri_subset_regex(readLines(tmp), "^</?(!DOCTYPE|meta|body|html)",negate=TRUE), collapse="\n"),
-      '</div>}',
-      sep="\n")
+      mytext <- cites:::rd_datatable(cites::cites_metadata())
     }
     mytext
   }

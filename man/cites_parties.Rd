@@ -19,21 +19,15 @@ and their date of joining the treaty.
   \Sexpr[echo=FALSE, results=rd, stage=build]{
   in_pkgdown <- any(grepl("as_html.tag_Sexpr", sapply(sys.calls(), function(a) paste(deparse(a), collapse = "\n"))))
     if(in_pkgdown) {
-      mytext <- ""
+      mytext <- cites:::tabular(cites::cites_parties())
     } else {
-    tmp <- tempfile(fileext=".html")
-      htmlwidgets::saveWidget(DT::datatable(cites::cites_parties(), rownames = FALSE, width=700), tmp)
-      mytext <- paste('Below is a searchable table of CITES parties.',
-      '\\\out{<div style="width:100\%">',
-         paste(stringi::stri_subset_regex(readLines(tmp), "^</?(!DOCTYPE|meta|body|html)",negate=TRUE), collapse="\n"),
-      '</div>}',
-      sep="\n")
+      mytext <- cites:::rd_datatable(cites::cites_parties())
     }
     mytext
   }
 }
 
-\if{text,latex}{ The HTML version of this help file includes a searchable table of the CITES parties }
+\if{text,latex}{ \Sexpr[echo=FALSE, results=rd, stage=build]{cites:::tabular(cites::cites_metadata())}}
 }
 \seealso{
 \code{\link[=cites_codes]{cites_codes()}} \code{\link[=cites_metadata]{cites_metadata()}}

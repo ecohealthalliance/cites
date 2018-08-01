@@ -26,13 +26,7 @@ from the CITES websites.
     if(in_pkgdown) {
       mytext <- c('In RStudio, this help file includes a searchable table of values.')
     } else {
-    tmp <- tempfile(fileext=".html")
-      htmlwidgets::saveWidget(DT::datatable(cites::cites_codes(), rownames = FALSE, width=700), tmp)
-      mytext <- paste('Below is a searchable table of the CITES codes.',
-      '\\\out{<div style="width:100\%">',
-         paste(stringi::stri_subset_regex(readLines(tmp), "^</?(!DOCTYPE|meta|body|html)",negate=TRUE), collapse="\n"),
-      '</div>}\n',
-      sep="\n")
+      mytext <- cites:::rd_datatable(cites::cites_codes())
     }
     mytext
   }
