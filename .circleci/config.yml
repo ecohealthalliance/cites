@@ -8,9 +8,7 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - deps1-{{ .Branch }}-{{ checksum "DESCRIPTION" }}-{{ checksum ".circleci/config.yml" }}
-            - deps1-{{ .Branch }}
-            - deps1-
+            - deps1-{{ .Branch }}-{{ checksum "DESCRIPTION" }}-{{ checksum ".circleci/config.yml" }}-{{ Rscript -e "R.version.string"}}
       - run:
           command: |
             R -e "devtools::install_deps(dependencies = TRUE)"

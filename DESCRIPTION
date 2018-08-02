@@ -1,6 +1,6 @@
 Package: cites
 Type: Package
-Title: The CITES Wildlife Trade Database
+Title: Fast access to the  CITES Wildlife Trade Database
 Version: 0.2.0
 Authors@R: c(
     person("Noam", "Ross", , "ross@ecohealthalliance.org", role = c("aut", "cre")),
