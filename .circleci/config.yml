@@ -8,24 +8,27 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - deps1-{{ .Branch }}-{{ checksum "DESCRIPTION" }}-{{ checksum ".circleci/config.yml" }}-{{ Rscript -e "R.version.string"}}
+            - deps5-{{ .Branch }}-{{ checksum ".circleci/config.yml" }}-{{ checksum "DESCRIPTION" }}
       - run:
           command: |
-            R -e "devtools::install_deps(dependencies = TRUE)"
-            R -e "devtools::install_github('MangoTheCat/goodpractice')"
-      - run:
-          command: |
-            R -e 'devtools::check()'
+            Rscript -e "if(!require(devtools)) install.packages('devtools')"
+            Rscript -e "if(!require(covr)) install.packages('covr')"
+            Rscript -e "if(!require(goodpractice)) install.packages('goodpractice')"
+            Rscript -e "update.packages(checkbuilt = TRUE, ask = FALSE)"
+            Rscript -e "devtools::install_deps(upgrade = TRUE)"
       - save_cache:
-          key: deps1-{{ .Branch }}-{{ checksum "DESCRIPTION" }}-{{ checksum ".circleci/config.yml" }}
+          key: deps5-{{ .Branch }}-{{ checksum ".circleci/config.yml" }}-{{ checksum "DESCRIPTION" }}
           paths:
             - "/usr/local/lib/R/site-library"
       - run:
           command: |
+            R -e 'devtools::check()'
+      - run:
+          command: |
             mkdir /root/main/artifacts
-            R -e "devtools::install()"
-            R -e "goodpractice::gp(checks = grep('(rcmdcheck|covr)', goodpractice::all_checks(), invert=TRUE, value=TRUE))"
-            R -e "cv <- covr::package_coverage(); print(cv); covr::report(x = cv, file = '/root/main/artifacts/cites-coverage.html', browse=FALSE)"
+            Rscript -e "devtools::install()"
+            Rscript -e "goodpractice::gp(checks = grep('(rcmdcheck|covr)', goodpractice::all_checks(), invert=TRUE, value=TRUE))"
+            Rscript -e "cv <- covr::package_coverage(); print(cv); covr::report(x = cv, file = '/root/main/artifacts/cites-coverage.html', browse=FALSE)"
             R CMD Rd2pdf --force --output='/root/main/artifacts/cites-manual.pdf' .
       - store_artifacts:
           path: /root/main/artifacts/
