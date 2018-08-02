@@ -4,7 +4,7 @@
 \name{cites-package}
 \alias{cites}
 \alias{cites-package}
-\title{cites: The CITES Wildlife Trade Database}
+\title{cites: Fast access to the  CITES Wildlife Trade Database}
 \description{
 This package provides the full extracted data and metadata from the CITES
 wildlife trade database.
