@@ -11,10 +11,17 @@ library(janitor)
 library(stringi)
 library(aws.s3)
 
-years <- 1975:2017
-
+#Download it all! Note this fails sometimes, which it is useful to check
+#file sizes in the graph below
+years <- 1975:2018
 for (yr in years) {
-  cites_url <- glue("https://trade.cites.org/cites_trade/exports/download?filters[time_range_start]={yr}&filters[time_range_end]={yr}&filters[exporters_ids][]=&filters[importers_ids][]=all_imp&filters[sources_ids][]=all_sou&filters[purposes_ids][]=all_pur&filters[terms_ids][]=all_ter&filters[taxon_concepts_ids][]=&filters[reset]=&filters[selection_taxon]=taxonomic_cascade&web_disabled=&filters[report_type]=comptab&filters[csv_separator]=comma")
+  cites_url <- glue("https://trade.cites.org/cites_trade/exports/download",
+                    "?filters[time_range_start]={yr}&filters[time_range_end]={yr}",
+                    "&filters[exporters_ids][]=&filters[importers_ids][]=all_imp",
+                    "&filters[sources_ids][]=all_sou&filters[purposes_ids][]=all_pur",
+                    "&filters[terms_ids][]=all_ter&filters[taxon_concepts_ids][]=",
+                    "&filters[reset]=&filters[selection_taxon]=taxonomic_cascade",
+                    "&web_disabled=&filters[report_type]=comptab&filters[csv_separator]=comma")
   cites_file <- glue("data-raw/cites_{yr}.csv")
   if (!file.exists(cites_file) || file.info(cites_file)$size < 1) {
     cat(cites_file, "\n")

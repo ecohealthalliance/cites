@@ -73,6 +73,7 @@ cites_info <- function(path) {
 #' @title Make a data release.
 #' @param ... Parameters passed through to \code{\link{github_release_create}}
 #' @param path Path to the data (see \code{\link{cites}}).
+#' @noRd
 cites_release <- function(..., path=NULL) {
   datastorr::github_release_create(cites_info(path), ...)
 }

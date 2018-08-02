@@ -6,7 +6,7 @@ output:
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-[![CircleCI](https://circleci.com/gh/ecohealthalliance/cites.svg?style=svg)](https://circleci.com/gh/ecohealthalliance/cites)
+[![CircleCI](https://circleci.com/gh/ecohealthalliance/cites.svg?style=shield)](https://circleci.com/gh/ecohealthalliance/cites)
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
