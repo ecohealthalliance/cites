@@ -4,7 +4,7 @@ The scripts in this directory process the data for the CITES package.
 `cites_codes.R` uses the **tabulizer** package to extract codes from
 the [database guide](https://trade.cites.org/cites_trade_guidelines/en-CITES_Trade_Database_Guide.pdf) `cites_codes()`, `cites_metadata()`, `cites_parties()`. 
 
-`process_cites.R` processes the larger CITES database.  It does do by
+`scrape_cites.R` processes the larger CITES database.  It does do by
 querying the CITES website repeatedly to get yearly-scale CSVs of the data.
 For many years, the website GUI won't let you download files of these size
 (those > 1 million records), but querying the export directly is fine, if slow.
