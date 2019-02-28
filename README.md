@@ -32,8 +32,8 @@ calls will load the database from storage on your computer.
 The CITES database is stored as an efficiently compressed [`.fst`
 file](https://github.com/fstpackage/fst), and loading it loads it a a
 [remote dplyr source](https://github.com/krlmlr/fstplyr). This means
-that it does not load fully into memory, but can be filtered and
-manipulated on-disk. If you wish to manipulate it as a data frame,
+that it does not load fully into memory on load, but some limited operations
+(column selection) can be performed on-disk. If you wish to manipulate it as a data frame,
 simply call `dplyr::collect()` to load it fully into memory, like so:
 
 ``` r
