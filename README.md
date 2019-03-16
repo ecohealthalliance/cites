@@ -3,6 +3,10 @@
 
 [![CircleCI](https://circleci.com/gh/ecohealthalliance/cites.svg?style=shield)](https://circleci.com/gh/ecohealthalliance/cites)
 
+[![Project Status: Suspended – Initial development has started, but there has not yet been a stable, usable release; work has been stopped for the time being but the author(s) intend on resuming work.](https://www.repostatus.org/badges/latest/suspended.svg)](https://www.repostatus.org/#suspended)
+
+_As CITES has released a more complete, larger, shipment-level database, we've moved development to the [**citesdb**](https://github.com/ecohealthalliance/citesdb) package, which uses a better out-of-memory framework for larger data._
+
 # cites
 
 Authors: *Noam Ross*
